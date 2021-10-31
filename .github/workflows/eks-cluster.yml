@@ -41,14 +41,17 @@ jobs:
             -backend=true
 
       - name: validate
-        run: terraform  validate
+        run: terraform validate
 
       - name: plan
-        run: terraform  plan -var-file=config.tfvars
+        run: terraform plan -var-file=config.tfvars
 
       - name: apply
-        run: terraform  apply -var-file=config.tfvars -auto-approve
+        run: terraform apply -var-file=config.tfvars -auto-approve
+
+      - name: show
+        run: terraform show
 
       - name: destroy
         if: github.event.inputs.destroy == 'true'
-        run: terraform  destroy -var-file=config.tfvars -auto-approve
+        run: terraform destroy -var-file=config.tfvars -auto-approve
