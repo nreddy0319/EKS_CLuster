@@ -1,5 +1,5 @@
 ---
-name: provision the eks resources
+name: iac aws resource
 on:
   workflow_dispatch:
     inputs:
@@ -12,7 +12,7 @@ on:
         default: false
 jobs:
   deploy_source:
-    name: terraform deployment
+    name: eks resource
     runs-on: ubuntu-latest
     env:
       bucket: terraform-backend-buckets-tfn
@@ -32,7 +32,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.SECRET_KEY }}
           aws-region: eu-central-1
 
-      - name: Init
+      - name: init
         run: |
           terraform init \
             -backend-config="bucket=${{ env.bucket }}" \
@@ -40,12 +40,15 @@ jobs:
             -backend-config="region=eu-central-1" \
             -backend=true
 
-      - name: Plan
+      - name: validate
+        run: terraform  validate
+
+      - name: plan
         run: terraform  plan -var-file=config.tfvars
 
-      - name: Apply
+      - name: apply
         run: terraform  apply -var-file=config.tfvars -auto-approve
 
-      - name: Destroy
+      - name: destroy
         if: github.event.inputs.destroy == 'true'
         run: terraform  destroy -var-file=config.tfvars -auto-approve
