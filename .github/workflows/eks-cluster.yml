@@ -1,3 +1,4 @@
+---
 name: provision the eks resources
 on:
   workflow_dispatch:
@@ -5,7 +6,6 @@ on:
       name:
         description: "target environment name"
         required: true
-    inputs:
       destroy:
         description: "Destroy the resource"
         required: false
