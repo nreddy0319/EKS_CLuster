@@ -5,16 +5,17 @@ on:
       name:
         description: "target environment name"
         required: true
-    destroy:
-      description: "Destroy the resource"
-      required: false
-      default: false
+    inputs:
+      destroy:
+        description: "Destroy the resource"
+        required: false
+        default: false
 jobs:
   deploy_source:
     name: terraform deployment
     runs-on: ubuntu-latest
     env:
-      bucket: terraform-backend-buckets-tfd
+      bucket: terraform-backend-buckets-tfn
     steps:
       - name: checkout
         uses: actions/checkout@v1
